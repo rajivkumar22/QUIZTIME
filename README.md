@@ -1,3 +1,9 @@
+<img width="1893" height="844" alt="image" src="https://github.com/user-attachments/assets/aafee72d-5ab3-41e4-8c4c-88760b65403a" />
+<img width="1868" height="900" alt="image" src="https://github.com/user-attachments/assets/984634cc-61d3-4107-9bef-d2816dc2ddf8" />
+<img width="1838" height="774" alt="image" src="https://github.com/user-attachments/assets/7b24b87b-8283-43e8-83d7-95fd3da358fe" />
+
+
+
 # QuizTime - AI Quiz Generator Platform
 
 A modern, interactive React.js application that generates custom quizzes on any topic using AI technology. Built with a focus on user experience, accessibility, and responsive design.
