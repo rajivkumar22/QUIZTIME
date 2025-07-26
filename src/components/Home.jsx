@@ -266,9 +266,10 @@ const Home = ({ onStartQuiz }) => {
   const [error, setError] = useState('');
 
   const exampleTopics = [
-    'Photosynthesis', 'French Revolution', 'JavaScript Basics', 
-    'Solar System', 'World War II', 'Chemistry Elements',
-    'Human Anatomy', 'Renaissance Art'
+    'Happiness', 'Sadness', 'Love', 'Friendship', 'Leadership',
+    'JavaScript Programming', 'Photosynthesis', 'French Revolution', 
+    'Solar System', 'World War II', 'Human Anatomy', 'Cooking',
+    'Depression', 'Anxiety', 'Confidence', 'Machine Learning'
   ];
 
   const generateQuiz = async () => {
@@ -312,8 +313,13 @@ const Home = ({ onStartQuiz }) => {
       }
 
       console.log('✅ Successfully received', data.questions.length, 'AI-generated questions');
+      
+      // Use the normalized topic from backend if available
+      const finalTopic = data.topic || topic;
+      console.log(`📚 Quiz topic normalized to: "${finalTopic}"`);
+      
       setLoading(false);
-      onStartQuiz(topic, questionCount, data.questions, difficulty);
+      onStartQuiz(finalTopic, questionCount, data.questions, difficulty);
 
     } catch (err) {
       setLoading(false);
@@ -321,12 +327,14 @@ const Home = ({ onStartQuiz }) => {
       
       let errorMessage = `AI Generation Failed: ${err.message}`;
       
-      if (err.message.includes('fetch') || err.message.includes('NetworkError')) {
+      if (err.message.includes('Please enter a relevant and meaningful topic')) {
+        errorMessage = '⚠️ Please enter a relevant and meaningful topic. Try topics like "Science", "History", "Mathematics", "Geography", etc.';
+      } else if (err.message.includes('fetch') || err.message.includes('NetworkError')) {
         errorMessage = '⚠️ Backend server not running. Please start the backend server first.';
       } else if (err.message.includes('429') || err.message.includes('quota')) {
-        errorMessage = '⚠️ OpenAI quota exceeded. Please add billing to your OpenAI account.';
+        errorMessage = '⚠️ Groq quota exceeded. Please check your Groq billing.';
       } else if (err.message.includes('401') || err.message.includes('API key')) {
-        errorMessage = '⚠️ Invalid OpenAI API key. Please check your API key configuration.';
+        errorMessage = '⚠️ Invalid Groq API key. Please check your API key configuration.';
       }
       
       setError(errorMessage);
@@ -354,7 +362,7 @@ const Home = ({ onStartQuiz }) => {
           <TopicInput
             id="topic-input"
             type="text"
-            placeholder="e.g., Photosynthesis, French Revolution, JavaScript..."
+            placeholder="e.g., FoOtBaLl, JAVASCRIPT, photosynthesis..."
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && !loading && generateQuiz()}
